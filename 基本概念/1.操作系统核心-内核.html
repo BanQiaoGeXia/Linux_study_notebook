@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>基本概念</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p><font size=8 color=black face="华文行楷">
+一.含义
+</font></p>
+<p><strong><font size=4 color=green face="微软雅黑">1.指完整的软件包,这包括用来管理计算机资源的核心层软件,以及附带的所有标准软件工具,注入命令行解释器,图形用户界面,文件操作工具和文本编辑器等.</font></strong></p>
+<p><strong><font size=4 color=green face="微软雅黑">2.指管理和分配计算机资源(CPU.RAM和设备)的核心层软件.
+&quot;内核&quot;一词,通常是指第二种含义</font></strong></p>
+<p><font size=8 color=black face="华文行楷">
+二.职责
+</font></p>
+<h2>1.进程调度:</h2>
+<p><strong><font size=4 color=green face="微软雅黑">
+计算机内均配备有一个或多个CPU(中央处理单元),一致性程序指令.Linux/UNIX系统属于抢占式多任务操作系统.</strong></p>
+<p><strong>多任务:</strong></p>
+<p><font size=4 color=green face="微软雅黑">
+指多个进程可以同时驻留于内存,且每个进程都能获得对CPU的使用权.
+</font></p>
+<p><strong>抢占:</strong></p>
+<p><font size=4 color=green face="微软雅黑">
+指一组规则,这组规则控制着哪些进程获得对CPU的使用,以及每个进程能使用多长时间,这两者都由内核进程调度程序(而非进程本身)决定.</p>
+<h2>2.内存管理:</h2>
+<p><strong><font size=4 color=green face="微软雅黑">
+物理内存(RAM)属于有限资源,内核必须以公平,高效地方式在进程间共享这一资源.Linux/UNIX采用虚拟内存管理机制.</strong></p>
+<h3>虚拟内存管理机制的优势:</h3>
+<p>1.进程与进程之间,进程与内核之间彼此隔离,因此一个进程无法读取或修改内核或其他进程的内存内容.</p>
+<p>2.只需将进程的一部分保持在内存中,这不但降低了每个进程对内存的需求量,而且还能在RAM中同时加载更多的进程,这也大幅提升了如下事件的发生概率,在任意时刻,CPU都有至少一个进程可以执行,从而使得对CPU资源的利用更加充分</p>
+<p>3.提供了文件系统:</p>
+<p>内核在磁盘之上提供有文件系统,允许对文件执行创建,获取,更新以及删除等操作.</p>
+<p>4.创建和终止进程:</p>
+<p>内核可将新程序载入内存,为其提供运行所需的资源(比如,CPU,内存一集对文件的访问等).这样一个运行中的程序称之为&quot;进程&quot;.一旦进程执行完毕,内核还要去报释放其占用资源,以供后续程序重新使用.</p>
+<p>5.对设备的访问:</p>
+<p>计算机外接设备(鼠标,键盘,磁盘和磁带驱动器等)可实现计算机与外部世界的用心,包括输入,输出或者两者兼而有之.内核既为程序访问设备提供了简化版的半准接口,同时还要仲裁多个进程对每一个设备的访问.</p>
+<p>6.联网:</p>
+<p>内核以用户进程的名义收发网络消息(数据包).该任务包括将网络数据包路由值目标系统.</p>
+<p>7.提供系统调用应用编程接口(API):</p>
+<p>进程可以利用内核入口点(也称为系统调用)请求内核去执行何种任务.</p>
+<p><font size=8 color=black face="华文行楷">
+三.内核态和用户态
+</font></p>
+<p><strong>现代树立起架构一般允许CPU至少在两种不同状态下运行, 用户态&amp;&amp;核心态
+执行硬件指令可使CPU在两种状态之间来回切换.
+虚拟内存区域划分(标记)为用户控件部分和内核空间</strong></p>
+<h2>用户态:</h2>
+<p>CPU只能访问被标记为用户控件的内存,是他访问属于内核空间的内存会引发硬件异常</p>
+<h2>内核态:</h2>
+<p>CPU既能访问用户控件内存,也能访问内核空间内存.
+可以执行某些特定操作,如: 执行宕机指令关闭系统,访问内存管理硬件,设备I/O操作的初始化等</p>
+<h2>应用:</h2>
+<p>将操作系统置于内核空间,确保用户进程既不能访问内核指令和数据结构,也无法执行不利于系统运行的操作</p>
+<p><font size=8 color=black face="华文行楷">
+四.以进程及内核视角监视系统
+</font></p>
+<p><br><br><br><br><br><br><br></p>
+<h1>* 误区解答:</h1>
+<pre><code>1.没有内核的情况下,计算机也能运行程序.
+ 内核极大地简化其他程序的编写和使用,令程序员功力大进,游刃有余.
+ 内核为管理计算机的有限资源提供了软件层.
+</code></pre>
+
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
