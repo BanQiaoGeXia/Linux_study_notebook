@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>7.环境列表</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+</head>
+<body>
+<font size=4 color=#4B2296 face="微软雅黑">
+
+<h1 id="-">环境列表</h1>
+<h2 id="-">定义</h2>
+<ul>
+<li>每一个进程都有与其相关的称之为环境列表的字符串数组, 或简称为环境</li><li>其中每个字符串都已名称=值形式定义</li><li>环境是&quot;名称-值&quot;的成对集合, 可存储任何信息, 常将列表中的名称称之为环境变量</li><li>新进程在创建时, 会继承其父进程的环境副本, 这是一种原始的进程间通信方式, 比较常用</li><li>环境提供了将信息从父进程传递给子进程的方法. 由于子进程只有在创建时才能获得其父进程的环境副本, 所以这一信息传递是单向的, 一次性的. 子进程创建后, 父子进程均可更改格子的环境变量, 且这些变更对对方而言不再可见</li><li>环境变量的常见用途之一是在shell中, 通过在自身环境中放置环境变量, shell就可确保把这些值传递给其所创建的进程, 并以此来执行用户命令</li><li>可以通过设置环境变量法来改变一些库函数的行为, 用户无需修改程序代码或者冲新连接相关库, 就能控制调用该函数的应用程序行为.</li><li>getopt()函数就是其中一例, 可通过设置POSIXLY_CORRECT环境变量来改变此函数的行为</li></ul>
+<p>大多数shell使用export命令向环境中添加变量值:</p>
+<pre><code>$ SHELL=/bin/bash
+$ export SHELL
+</code></pre><p>在bash shell和Korn shell 中 可以简写为:</p>
+<pre><code>$ eport SHELL=/bin/bash
+</code></pre><p>在C shell中, 使用的则是setenv命令:</p>
+<pre><code>$ setenv SHELL /bin/bash
+</code></pre><ul>
+<li>上述命令吧一个值永久的添加到shell环境中, 此后这个shell创建的所有子进程都将继承此环境</li><li>在任一时刻, 可以使用unset命令撤销一个环境变量(C shell 中则使用unsetenv命令)</li><li>在Bourne shell 和其衍生shell(如 bash shell 和 Korn shell)中, 可使用下列语法执行某应用程序的环境中添加一个变量值, 而不影响其父shell:<ul>
+<li>$ NAME=value program</li></ul>
+</li><li>此命令仅向执行特定程序的子进程环境添加一个定义, 如果希望, 可以在program前放置多对赋值</li><li>printenv命令显示当前的环境列表</li><li>环境列表的排列是无序的</li><li>通过Linux专有的/proc/PID/environ文件检查任一进程的环境列表, 每一个键值对都以空字节终止</li></ul>
+<h2 id="-">从程序中访问环境</h2>
+<ul>
+<li>在C语言程序中, 可以使用全局变量<code>char **environ</code>访问环境列表</li><li>environ与argv参数类似, 指向一个与NULL结尾的指针列表, 每个指针又指向一个以空字节终止的字符串</li></ul>
+<p><strong>与上述printenv命令输出环境相对应的环境列表数据结构</strong><br><img src="images/5.png" alt="与上述printenv命令输出环境相对应的环境列表数据结构"></p>
+<p><strong>显示进程环境</strong></p>
+<pre><code class="lang-c">#include &quot;tlpi_hdr.h&quot;
+
+extern char **environ
+
+int main(int argc, char *argv[])
+{
+    char **ep;
+    for(ep = environ; *ep != NULL; ep++){
+        puts(*ep);
+    }
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<ul>
+<li>上述程序通过访问environ变量来展示该进程环境中的所有值</li><li>改程序输出结果与printenv命令的输出结果相同, 程序中的循环利用指针来遍历environ变量</li><li>虽然可以把environ当成数组来使用, 但这多少有些生硬, 因为环境列表中各项的排列不分先后, 而且也没有变量用来指定环境类表的长度</li><li>另外, 还可以通过声明main()函数中的第三个参数来访问环境列表</li></ul>
+<pre><code class="lang-c">int main(int argc, char *argv[], char *envp[])
+</code></pre>
+<ul>
+<li>该参数随即可被视为environ变量来使用, 所不同的是, 该参数的作用于在main()函数内, 虽然UNIX系统普遍实现了这一特性, 但还是要避免使用, 因为除了局限于作用于限制外, 该特性也不再SUSv3的规范之列</li></ul>
+<p>getenv()函数能够从进程环境中检索单个值:</p>
+<pre><code class="lang-c">#include &lt;stdlib.h&gt;
+
+char *getenv(const char *name);
+
+Returns pointer to value string, or NULL if no such variable
+</code></pre>
+<ul>
+<li>向getenv()函数提供环境变量名称, 还函数将返回相应字符串指针</li><li>前面所示的环境实例来看, 如果指定SHELL为参数name, 那么将返回/bin/bash. </li><li>如果不存在指定名称的环境变量, 那么getenv()函数将返回NULL</li><li>以下是使用getenv()函数时可移植性方面的注意事项:<ul>
+<li>SUSv3规定应用程序不应修改getenv()函数返回的字符串, 这是由于该字符串实际上属于环境的一部分, 若需要改变一个环境变量的值, 可以使用setenv()函数或putenv()函数</li><li>SUSv3允许getenv()函数的实现使用静态分配的缓冲区返回执行结果, 后续对getenv(), setenv(), putenv()或者unsetenv()的函数调用可以重写该缓冲区, 虽然glibc库的getenv()函数实现并未这样使用静态缓冲区, 但具备可移植性的程序如需保留getenv()调用返回的字符串, 就应该先将返回字符串赋值到其他位置, 之后方可对上述函数发起调用</li></ul>
+</li></ul>
+<h2 id="-">修改环境</h2>
+<ul>
+<li>修改环境对进程的用处:<ul>
+<li>这一修改对该进程后续创建的所有子进程均可见</li><li>设定某一变量, 以求对于将要载入进程内存的新程序可见</li></ul>
+</li><li>环境不仅是一种进程间通信的形式, 还是程序间通信的方法</li></ul>
+<hr>
+<ul>
+<li>putenv()函数向调用进程的环境中添加一个新变量, 或者修改一个已经存在的变量值</li></ul>
+<pre><code class="lang-c">#include &lt;stdlib.h&gt;
+
+int putenv(char *string);
+
+Returns 0 on success, or nunzero on error
+</code></pre>
+<ul>
+<li>参数string是一个指针, 指向name=value形式的字符串</li><li>调用putenv()函数后, 该字符串就成为环境的一部分, 换言之, putenv函数将设置environ变量中某一元素的还想与string参数的指向位置相同, 而非string参数所需之乡字符串的复制副本</li><li>如果随后修改string参数所指向的内容, 浙江影响该进程的环境</li><li>string参数不应为自动变量, 因为定义此变量的函数一旦返回, 就有可能会重写这块内存区域</li><li><strong>注意:</strong> putenv()函数调用失败返回非0值, 而非-1</li><li>putenv()函数的glibc库实现还提供了一个非标准扩展, 如果string参数内容不包括一个等号&#39;=&#39;, 那么将从环境列表中移除一string参数命名的环境变量</li></ul>
+<hr>
+<ul>
+<li>setenv()函数可以替代putenv()函数,向环境中添加一个变量</li></ul>
+<pre><code class="lang-c">include &lt;stdlib.h&gt;
+
+int setenv(const char *name, const char *value, int orerwrite);
+
+Returns 0 on success, or -1 on error
+</code></pre>
+<ul>
+<li>setenv()函数为形如name=value的字符串分配一块内存缓冲区, 并将name和value所指向的字符串赋值到次缓冲区, 为此来穿件一个新的环境变量</li><li><strong>注意: </strong> 不需要再name的结尾处或者value的开始出提供一个等号字符, 因为setenv()函数会在向环境添加新变量是添加等号字符</li><li>若以name标识的变量在环境中已经存在, 且参数overwrite的值为0, 则setenv()函数将不改变环境, 如果参数overwrite的值为非0, 则setenv()函数总是改变环境</li><li>setenv()函数复制其参数意味着与putenv()函数不同, 之后对name和value所知字符串内容的修改将不会影响环境, 使用自动变量作为setenv()函数的参数也没有问题</li></ul>
+<hr>
+<ul>
+<li>unsetenv()函数从环境中移除有name参数标识的变量</li></ul>
+<pre><code class="lang-c">#include &lt;stdlib.h&gt;
+
+int unsetenv(const char *name);
+
+Returns 0 on success, or -1 on error
+</code></pre>
+<ul>
+<li>同setenv()函数一样, 参数name不应包含等号字符</li><li>setenv()函数和unsetenv()函数均来自BSD, 不如putenv()函数使用普遍</li><li>有时, 需要清除整个环境, 然后以所选值进行重建</li><li>可以通过将environ变量赋值为NULL来清除环境<pre><code>  environ = NULL;
+</code></pre></li><li>也可以调用clearenv()库函数:</li></ul>
+<pre><code class="lang-c">#defind _BSD_SOURCE
+#include &lt;stdlib.h&gt;
+
+int clearenv(void)
+
+Returns 0 on success, or a nonzero on error
+</code></pre>
+<ul>
+<li>在某些情况下, 使用setenv()函数和getenv()函数可能会导致程序内存泄露, setenv()函数所分配的一块内存缓冲区, 随之会成为进程环境的一部分, 而调用clearenv()是则没有释放该缓冲区, 反复调用这两个函数的程序, 会不断产生内存泄露</li><li>但是, 这不大可能成为一个问题, 因为程序通常尽在启动时调用chearenv()函数一次, 用于移除继承自其父进程环境中的所有条目</li></ul>
+<h2 id="-">程序示例</h2>
+<p><strong>修改进程环境 : </strong></p>
+<pre><code class="lang-c">#define _GNU_SOURCE
+#include &lt;stdlib.h&gt;
+#include &quot;tlpi_hdr.h&quot;
+
+extern char **environ;
+
+int main(int argc, char *argv[])
+{
+    int j;
+    char **ep;
+    clearenv();
+    for(j = 1; j &lt; argc; j++){
+        if(putenv(argv[j]) != 0)
+            errExit(&quot;putenv: %s&quot;, argv[j]);
+    }
+
+    if(setenv(&quot;GREET&quot;, &quot;Hello world&quot;, 0) == -1)
+        errExit(&quot;setenv&quot;);
+
+    unsetenv(&quot;BYE&quot;);
+
+    for(ep = environ; *ep != NULL; ep++)
+        puts(*ep);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<ul>
+<li>程序展示了上述所有函数的用法</li><li>该程序首先清空环境, 然后向环境中逐一添加命令行参数所提供的环境变量定义; 之后, 如果环境中上午名为GREET的变量, 就向环境中添加该变量; 接着, 从环境中移除名为BYE的变量, 最后打印当前环境列表</li><li>如果将environ参数赋值为NULL, 那么可以预见如下形式的循环将失败, 因为*environ是无效的</li></ul>
+<pre><code class="lang-c">for(ep = environ; *ep != NULL; ep++)
+    puts(*ep);
+</code></pre>
+<ul>
+<li>如果setenv()函数和putenv()函数发现environ参数为NULL, 则会创建一个新的环境列表, 并使environ参数指向此列表, 结果上面的循环操作又将正确运行</li></ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
