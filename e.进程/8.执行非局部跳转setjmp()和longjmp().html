@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>8.执行非局部跳转setjmp()和longjmp()</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+</head>
+<body>
+<font size=4 color=#4B2296 face="微软雅黑">
+
+<h1 id="-setjmp-longjmp-">执行非局部跳转: setjmp()和longjmp()</h1>
+<p><strong>非局部是指跳转的目标为当前执行函数之外的某个位置</strong></p>
+<h2 id="c-goto-">C语言中的goto语句</h2>
+<ul>
+<li>C语言包含goto语句, 若无止境的滥用, 将使程序难以阅读和维护, 不过偶尔也可另程序更简单, 更快速, 或者兼而有之</li><li>C语言的goto语句存在一个限制, 即不能从当前函数跳转到另一函数, 然而, 偶尔还是需要这一功能</li><li>考虑错误处理中经常出现的场景: 在一个深度嵌套的函数调用中发生了错误, 要放弃当前任务, 从多层函数调用中返回, 并在较高层级的函数中继续执行</li><li>要做到以上这一点, 可以让每个函数都返回一个状态值, 由函数的调用者检查并作出响应处理, 这一方法虽然有效, 并且是大多数情况下的理想方法, 然而, 有时候如果能从嵌套函数调用中跳出, 返回该函数的调用者之一, 编码会更为简单, setjmp()和longjmp()就提供了这一功能</li></ul>
+<pre><code class="lang-c">#include &lt;setjmp.h&gt;
+
+int setjmp(jmp_buf env);
+
+returns 0 on initial call, nonzero on return via longjmp()
+
+void longjmp(jmp_buf env, int val);
+</code></pre>
+<ul>
+<li>setjmp()调用为后续有longjmp()调用执行的跳转确立了跳转目标</li><li>该目标整事程序发起setjmp()调用的位置</li><li>调用longjmp()后, 看起来就和从第二次调用setjmp()返回时完全一样</li><li>通过查看setjmp()返回的整数值, 可以区分setjmp调用时出事返回还是第二次返回</li><li>出是调用返回值为0, 后续的返回值为longjmp()调用中val参数所指定的任意值.</li><li>通过对val参数使用不同值, 能够区分出程序中跳转至同一目标的不同起跳位置</li><li>如果langjmp()函数的val参数值为0, 而longjmp()函数对此又不做检查, 就会导致模拟setjmp()返回值为0, 如同初次调用setjmp()函数返回时一样, 出于这一原因, 如果指定val参数值为0, 则longjmp()调用实际会将其替换为1.</li><li>这两个函数的入参env为成功实现跳转提供了粘合剂</li><li>setjmp()函数把当前进程环境的各种信息保存到env参数中.</li><li>调用longjmp()时必须指定相同的env变量, 以此来执行伪返回</li><li>由于对setjmp()函数和longjmp()函数的调用分别位于不同函数, 所以应该将env参数定义为全局变量, 或者将env作为函数入参来传递, 后一种做法较为少见</li><li>调用setjmp()是, env除了存储当前进程的其他信息外, 还保存了成句技术寄存器和栈指针寄存器的副本, 这些信息能够使后续的longjmp()调用完成两个关进步骤的操作:<ul>
+<li>将发起longjmp()调用的函数与之前调用setjmp()的函数之间的函数栈帧从栈上剥离, 有时有将此过程成为&quot;栈解旋, 或栈展开(unwinding the stack)&quot;, 这是通过将栈指针寄存器重置为env参数内的保存值来实现的</li><li>重置程序计数寄存器, 是程序得意从初始的setjmp()调用位置继续执行, 同样, 此功能是通过env参数中的保存值来实现的</li></ul>
+</li></ul>
+<h2 id="-">程序示例</h2>
+<p><strong>setjmp()和longjmp()的用法</strong></p>
+<pre><code class="lang-c">#include &lt;setjmp.h&gt;
+#include &quot;tlpi_hdr.h&quot;
+
+static jmp_buf env;
+
+static void f2(void)
+{
+    longjmp(env, 2);
+}
+
+static void f1(void)
+{
+    if(argc == 1)
+        longjmp(env, 1);
+    f2();
+}
+
+int main(int argc, char *argv[])
+{
+    switch(setjmp(env))
+    {
+    case:0
+        printf(&quot;Callint f1() after initial setjmp()\n&quot;);
+        f1(argc);
+        break;
+    case:1
+        printf(&quot;We jumped back from f1()\n&quot;);
+        break;
+    case:2
+        printf(&quot;We jumped back from f2()\n&quot;);
+        break;
+    }
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<ul>
+<li>该程序通过setjmp()的初始调用建立了一个跳转目标, 接下来的switch用于检测时初次从setjmp()调用返回还是在调用longjmp()后返回</li><li>当setjmp()调用返回值为0时, 亦即对setjmp()的初始调用完成后, 将调用f1()函数, f1()函数根据argc参数值来决定是立刻调用longjmp()函数还是据需去调用f2()函数</li><li>如果是调用f2()函数, 则f2()函数将马上调用longjmp()函数</li><li>两处对longjmp()的调用都会是进程恢复到调用setjmp()的位置</li><li>程序在两处调用中为val参数设定了不同值, 一共main()函数的switch语句区分发生跳转的函数, 并打印相关信息</li></ul>
+<h2 id="-setjmp-">对setjmp()函数的使用限制</h2>
+<ul>
+<li><p>SUSv3和C99规定, 对setjmp()的调用只能在如下语境中使用:</p>
+<ul>
+<li>构成选择或迭代语句中(if, switch, while等)的整个控制表达式</li><li>作为一元操作符&#39;!&#39;的操作对象, 其最终表达式构成了选择或迭代语句的整个控制表达式</li><li>作为比较操作(==, !=, &lt;, &gt;等)的一部分, 另一操作对象必须是一个整数常量表达式, 且其最终表达式构成选择或迭代语句的整个控制表达式</li><li>作为独立的函数调用, 且没有嵌入到更大的表达式中</li></ul>
+</li><li><p><strong>注意: </strong>C语言赋值语句不再上述列表之列, s = setjmp(env); 是不符合标准的</p>
+</li><li>之所以规定这些限制, 是因为作为常规函数的setjmp()实现无法保证拥有足够的信息来保存所有寄存器值和封闭表达式中用到的临时栈位置, 以便于longjmp()调用后此类信息能得以正确恢复, 因此, 仅允许在足够简单且无需临时存储的表达式中调用setjmp()</li></ul>
+<h2 id="-longjmp-">滥用 longjmp()</h2>
+<ul>
+<li><p><strong>如果讲env缓冲区定义为全局变量, 对所有函数可见, 那么就可以执行如下操作序列: </strong></p>
+<ol>
+<li>调用函数x(), 使用setjmp()调用在全局变量env中简历一个跳转目标</li><li>从函数x()中返回 </li><li>调用函数y(), 使用env变量调用longjmp()函数</li></ol>
+</li><li><p>这是一个严重错误, 因为longjmp()调用不能跳转到一个已经返回的函数中, 这种情况下, longjmp()函数会尝试将栈解开, 恢复到一个不存在的栈帧位置, 可能会使程序暴毙, 也可能会引起调用与返回之间的死循环</p>
+</li></ul>
+<h2 id="-">优化编译器的问题</h2>
+<ul>
+<li>优化编译器会重组程序的指令执行顺序, 并在CPU寄存器中, 而非RAM中存储某些变量</li><li>这种优化一般依赖于反应了程序词法结构的运行时控制流程</li><li>由于setjmp()和longjmp()的跳转操作需要在运行时才能得以确立和执行, 并未在程序的词法结构中有所反应, 孤儿编译器在进行优化师也无法将其考虑在内</li><li>某些应用程序二进制接口(ABI)实现的语义要求longjmp()函数恢复先前setjmp()调用锁保存的CPU寄存器副本</li><li>这就意味着longjmp()操作会致使经过优化的变量被赋以错误值</li></ul>
+<p><strong>编译器的优化和longjmp()函数相互作用的示例</strong></p>
+<pre><code class="lang-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;Setjmp.h&gt;
+
+static jmp_buf env;
+
+static void doJump(int nvar, int rvar, int vvar)
+{
+    printf(&quot;Inside doJump(): nvar = %d, rvar = %d, vvar = %d\n&quot;, nvar, rvar, vvar);
+    longjmp(env, 1);
+}
+
+int main(int argc, char *argv[])
+{
+    int nvar;
+    register int rvar;
+    volatile int vvar;
+
+    nvar = 111;
+    rvar = 222;
+    vvar = 333;
+
+    if(Setjmp(env) == 0){
+        nvar = 777;
+        rvar = 888;
+        vvar = 999;
+        doJump(nvar, rvar, vvar);
+    }
+    else{
+        printf(&quot;After longjmp(): nvar = %d, rvar = %d, vvar = %d\n&quot;, nvar, rvar, vvar);
+    }
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<pre><code>$ gcc -o setjmp_vars setjmp_vars.c
+$ ./setjmp_vars
+Inside doJump(): nvar = 777, rvar = 888, vvar = 999
+After longjmp(): nvar = 777, rvar = 888, vvar = 999
+--------------------------------------------
+$ gcc -O -o setjmp_vars setjmp_vars.c
+$ ./setjmp_vars
+Inside doJump(): nvar = 777, rvar = 888, vvar = 999
+After longjmp(): nvar = 111, rvar = 222, vvar = 999
+</code></pre><ul>
+<li>在longjmp()调用后, nvar和rvar参数呗充值未setjmp()初次调用时的值</li><li>起因是优化器对代码的重组收到longjmp()调用的干扰</li><li>作为候选优化对象的任一局部变量可能都难免会遇到这类问题, 一般包含指针变量和char, int, float, long等任何简单类型的变量</li><li>将变量声明为volatile, 是告诉优化器不要对其进行优化, 从而避免了代码重组</li><li>因为不同优化器有不同的优化方法, 具备良好移植性的程序应在调用setjmp()的函数中, 将上述类型的所有局部变量都声明为volatile</li></ul>
+<h2 id="-setjmp-longjmp-">尽可能避免使用setjmp()函数和longjmp()函数</h2>
+<ul>
+<li>如果说goto语句会使程序难以阅读, 那么非局部跳转会让程序超级难以阅读, 因为它能在程序中任意两个函数间传递控制</li><li>因此, 应当慎用setjmp()和longjmp()函数</li><li>再设计和编码时花点心思来避免使用这两个函数, 程序根据可读性, 可能会根据可移植性</li></ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
