@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>1.在堆上分配内存</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+</head>
+<body>
+<font size=3 color=#264246 face="微软雅黑">
+
+<h1 id="-">在堆上分配内存</h1>
+<hr>
+<p><strong>进程可以通过增加堆的大小来分配内存</strong></p>
+<h2 id="-">堆</h2>
+<ul>
+<li>是一段长度可变的连续细腻内存, 始于进程的未初始化数据段末尾, 随着内存的分配和释放而增减</li><li>通常将对的当前内存边界称为 &quot;program break&quot;</li></ul>
+<h2 id="-program-break-brk-sbrk-">调整program break : brk()和sbrk()</h2>
+<ul>
+<li><p>改变堆的大小(即分配或释放内存), 最初, program break的位置位于未初始化数据段末尾, 如图:<br><img src="images/1.png" alt=""></p>
+</li><li><p>在program break的位置抬升后, 程序可以访问新分配区域内的任何内存地址, 而此时屋里内存页还没有分配</p>
+</li><li>内核会在进程首次试图访问这些虚拟内存地址时自动分配新的物理内存页</li><li>两个操作program break的系统调用: brk()和sbrk():</li></ul>
+<pre><code class="lang-c">#include &lt;unistd.h&gt;
+
+int brk(void * end_data_segment);
+
+    Returns 0 on success, or -1 on error
+
+void *sbrk(intptr_t increment);
+
+    Returns previous program break on success, or (void *)-1 on error
+</code></pre>
+<ul>
+<li>系统调用brk()会将program break设置为参数end_data_segment所指定的位置, 由于内存页页为单位进行内存分配, end_data_segment实际会四舍五入到下个内存页的边界处</li><li>当试图将program break设置为一个低于其初始值得位置时, 可能会导致无法预知的行为, 例如:<ul>
+<li>当程序试图访问的数据位于初始化或未初始化数据段中当前尚不存在的部分时, 就会引发段内存访问错误(segentation fault)</li></ul>
+</li><li>program break可以设定的精确上限取决于一些因素, 包括进程中对数据段大小的资源限制, 以及内存映射, 共享内存段, 共享库的位置等</li><li>调用sbrk()将program break在原有地址上增加从参数increment出入的大小, 用于声明increment的intptr_t类型属于整数数据类型</li><li>调用成功, sbrk()返回前一个program break的地址, 即如果program break增加, 那么返回值是指向这块新分配内存起始位置的指针</li><li>调用sbrk(0)将返回program break的当前位置, 对其不做改变, 再意图跟踪堆的大小, 或是见识内存分配函数包的行为时, 会用到这一用法</li></ul>
+<h2 id="-malloc-free-">在堆上分配内存: malloc()和free()</h2>
+<ul>
+<li>C程序使用malloc函数族在堆上分配和释放缓存, 脚趾brk()和sbrk(), 这些函数具备如下优点:<ul>
+<li>属于C语言标准的一部分</li><li>更易于在多线程程序中使用</li><li>接口简单, 允许分配小块内存</li><li>允许随意释放内存块, 它们被维护与一张空闲内存列表中, 在后续内存分配调用时循环使用</li></ul>
+</li><li>malloc()函数在堆上分配size字节大小的内存, 并返回指向新分配内存其实位置处的指针, 其所分配的内存未经初始化</li></ul>
+<pre><code class="lang-c">#include &lt;stdlib.h&gt;
+
+void *malloc(size_t size);
+
+    Returns pointer to allocated memory on success, or NULL on error
+</code></pre>
+<ul>
+<li>由于malloc()的返回类型为void*, 因而可以将其赋给任意类型的C指针</li><li>malloc()返回内存块所采用的字节对齐方式, 总是适宜于高效访问任何类型的C语言数据结构</li><li>在大多数硬件架构上, 这实际意味着malloc()是基于8字节或16字节边界来分配内存的</li><li>若无法分配内存, 则malloc()返回NULL, 并设置errno以返回错误信息, 虽然分配内存失败的可能性很小, 但所有对malloc以及后续体积的相关函数的调用都应对返回值进行错误检查</li><li>free()函数释放ptr参数所指向的内存块, 该参数应该是之前由malloc(), 或者其他堆内存分配函数之一所返回的地址</li></ul>
+<pre><code class="lang-c">#include &lt;stdlib.h&gt;
+
+void free(void* ptr);
+</code></pre>
+<ul>
+<li>一般情况下, free()并不降低program break的位置, 而是讲这块内存添加到空闲内存列表中, 共后续的malloc()函数循环使用, 这么做的原因是:<ul>
+<li>被释放的内存块通常会位于堆的中间, 而非堆的顶部, 因为江都program break是不可能的</li><li>它最大限度地减少了程序必须执行的sbrk()调用次数</li><li>在大多数情况下, 降低program break的位置不会对那些分配大量内存的程序有多少帮助, 因为它们同城倾向于持有已分配内存或是反复释放和重新分配内存, 而非释放所有内存后再持续运行一段时间</li></ul>
+</li><li>如果传给free()的是一个空指针, 那么函数将什么都不做</li><li>在调用free()后对参数ptr的任何使用, 例如将其再次传递给free(), 将产生错误, 并可能导致不可预知的结果</li></ul>
+<h2 id="-">程序示例</h2>
+<p><strong>free()函数对program break的影响</strong></p>
+<pre><code class="lang-c">#include &quot;tlpi_hdr.h&quot;
+
+#define MAX_ALLOCS 1000000
+
+int main(int argc, char *argv[])
+{
+    char *ptr[MAX_ALLOCS];
+    int freeStep, freeMin, freeMax, blockSize, numAllocs, j;
+
+    printf(&quot;\n&quot;);
+
+    if(argc &lt; 3 || strcmp(argv[1], &quot;--help&quot;) == 0)
+        usageErr(&quot;%s mum_allocs block_size [step[min[max]]]\n&quot;, argv[0]);
+
+    numAllocs = getInt(argv[1], GN_GT_o, &quot;num-allocs&quot;);
+    if(numAllocs &gt; MAX_ALLOCS)
+        cmdLineErr(&quot;num-allocs &gt; %d\n&quot;, MAX_ALLOCS);
+
+    blockSize = getInt(argv[2], GN_GT_o | GN_ANY_BASE, &quot;block-size&quot;);
+
+    freeStep = (argc &gt; 3) ? getInt(argv[3], GN_GT_o, &quot;step&quot;) : 1;
+    freeMin = (argc &gt; 4) ? getInt(argv[4], GN_GT_o, &quot;min&quot;) : 1;
+    freeMax = (argc &gt; 5) ? getInt(argv[5], GN_GT_o, &quot;max&quot;) : numAllocs;
+
+    if(freeMax &gt; numAllocs)
+        cmdLineErr(&quot;free-max &gt; num-allocs\n&quot;);
+
+    printf(&quot;Initial program break:        %10p\n&quot;, sbrk(0));
+
+    printf(&quot;Allocating %d*%d bytes\n&quot;, numAllocs, blockSize);
+    for(j = 0; j &lt; numAllocs; j++)
+    {
+        ptr[j] = malloc(blockSize);
+        if(ptr[j] == NULL)
+            errExit(&quot;malloc&quot;);
+    }
+
+    printf(&quot;Program break is now:        %10p\n&quot;, sbrk(0));
+
+    printf(&quot;Freeing blocks from %d to %d in steps of %d\n&quot;, freeMin, freeMax, freeStep);
+
+    for(j=freeMin - 1; j &lt; freeMax; j += freeStep)
+        free(ptr[j]);
+    printf(&quot;After free(), program break is: %10p\n&quot;, sbrk(0));
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<ul>
+<li>改程序在分配了多块内存后, 根据命令行参数来释放其中的部分或全部</li><li>前两个命令行参数制定了分配内存块的数量和大小, 第三个命令行参数指定了释放内存块的循环步长, 如果是1, 那么城西将释放每块已分配的内存, 如果是2, 每隔一块释放一块已分配内存, 第四个和第五个命令行参数指定需要释放的内存块范围, 如果省略这两个参数, 那么将释放全部范围内的已分配内存</li><li>但是, 如果在堆顶部释放完整的一组连续内存块, 会观察到program break从峰值上降下来, 这表明free()使用了sbrk()来降低program break</li><li>在free()函数释放内存时, free()函数的glibc实现会在释放内存时将相邻的空间内存块合并为一整块更大的内存, 因而也有能力识别出堆顶部的整个空闲区域</li><li>仅当堆顶空闲内存足够大的时候, free()函数的glibc()实现会调用sbrk()来降低program break的地址, 至于足够与否则取决于malloc函数包行为的控制参数, 这减少了必须对sbrk()发起的调用次数</li></ul>
+<h2 id="-free-free-">调用free()还是不调用free()</h2>
+<ul>
+<li>当进程终止时, 其占用的所有内存都会返还给操作系统, 对于那些分配了内存并在进程终止前持续使用的程序而言, 通常会省略对free()的调用</li><li>加入多次对free()的调用会消耗大量的CPU时间, 还会是代码更加复杂</li><li>但是, 最好在程序中显示释放所有已分配内存, 原因如下:<ul>
+<li>显示调用free()能使程序在未来修改时更具可读性和可维护性</li><li>如果使用malloc调试库来查找程序的内存泄露问题, 那么会将任何未经显示释放处理的内存报告为内存泄露, 这会是发现真正内存泄露的工作复杂化</li></ul>
+</li></ul>
+<h2 id="malloc-free-">malloc()和free()的实现</h2>
+<ul>
+<li>理解malloc()和free()的实现, 能使我们洞悉产生作物的原因以及如何避免此类错误</li></ul>
+<p><strong><em>malloc实现 :</em></strong></p>
+<ul>
+<li>首先会扫描之前由free()所释放的空闲内存快列表, 以求找到尺寸大于或等于要求的一块空闲内存</li><li>如果这一块内存的尺寸正好与要求相当, 就把他直接返回给调用者</li><li>如果是一块较大的内存, 就将其分割, 将一块大小相当的内存返回给调用者, 较小的那块空闲内存保留在空闲列表中</li><li>如果空闲内存列表中没有足够大的空闲内存块, malloc()将会调用sbrk()已分配更多的内存, 为了减少sbrk()的调用次数, malloc会以虚拟内存页大小的数倍来增加program break, 并将超出部分至于空闲内存列表</li></ul>
+<p><strong><em>free实现 :</em></strong></p>
+<ul>
+<li>为了知晓内存块的大小, malloc()分配内存快事, 会额外分配几个字节来存放记录这块内存大小的整数值, 该整数位于内存块的起始处, 儿实际返回给调用者的内存地址恰好位于这一长度记录字节之后</li></ul>
+<p><img src="images/2.png" alt=""></p>
+<ul>
+<li>当其内存块置于空闲内存列表(双向链表)时, free()会使用内存块本身的空间来存放链表指针, 将自身添加到列表中</li></ul>
+<p><img src="images/3.png" alt=""></p>
+<ul>
+<li>随着对内存不断的释放和重新分配, 空闲列表中的空闲内存会和已分配的在用内存混杂在一起</li></ul>
+<p><img src="images/4.png" alt=""></p>
+<ul>
+<li>C语言允许程序创建指向堆中任意位置的指针, 并修改其指向的数据, 包括由free()和malloc()函数维护的内存快长度, 指向前一空闲块和后一空闲块的指针</li><li>一旦推究起隐晦难解的编程缺陷来, 这将成为火药桶, 假设经由一个错误指针, 程序无意间增加了冠于一块已分配内存的长度值, 并随即释放这块内存, free()因之会在空闲列表中记录下这块长度失真的内存, 这将会导致这样一个场景: 程序的两个指针分别指向凉快它认为互不相干的已分配内存, 但实际上这两块内存却互相重叠, 导致程序逻辑错误</li><li>为避免这类错误, 应遵守以下规则:<ul>
+<li>分配一块内存后, 当小心谨慎, 不要改变这块内存范围外的任何内容, 错误的指针运算, 或者循环跟新内存块内容是出现的&quot;off-by-one&quot;错误, 都有可能导致这一情况</li><li>释放同一块已分配内存超过一次是错误的, Linux上的glibc库会报出分段错误</li><li>若非经由malloc函数包中函数所返回的指针, 不能再调用free()函数时使用</li><li>在编写需要长时间运行的程序时, 如果需要反复分配内存, 应当确保释放所有已使用完毕的内存, 不然, 堆将稳步增长, 直到抵达可用虚拟内存的上限, 在此之后分配内存的任何尝试都将以失败告终-------&gt;此乃传说中之 : <strong>内存泄漏</strong></li></ul>
+</li></ul>
+<h2 id="malloc-">malloc调试的工具和库</h2>
+<ul>
+<li><p>glibc提供了malloc调试库, 方便检测malloc缺陷, malloc挑水工局部分功能如下:</p>
+<ul>
+<li>mtrace()和muntrace()函数本别在程序中打开和关闭对内存分配调用进行跟踪的功能, 这些函数要与环境变量MALLOC_TRACE搭配使用, 该变量定义了写入跟踪信息的文件名, 被调用时, mtrace()会检查是否定义了该文件, 又是否可以打开文件并写入, 如果一切正常, 那么会在文件里跟踪和记录所有对malloc函数包中函数的调用, 由于生成文件不易于理解, 还提供了一个脚本用于分析文件, 并生成易于理解的汇总报告, 设置用户ID和设置组ID的程序会忽略mtrace()的调用</li><li>mcheck()和mprobe()函数允许程序对已分配内存块进行一致性检查, 如:当程序试图在已分配内存之外进行写操作时, 他们将捕获这个错误.这些函数提供的功能和下厨malloc调试库有重叠之处, 使用这些函数的程序, 必须使用cc-lmcheck选项与mcheck库链接</li><li>MALLOC<em>CHECK</em>环境变量提供了类似于mcheck()和mprobe()函数的功能, 通过为此变量设置不同的整数值, 可以控制程序对内存分配作物的响应方式:<ul>
+<li>0: 忽略错误</li><li>1: 在标准错误输出中打印诊断错误</li><li>2: 调用abort()来终止程序</li></ul>
+</li><li>并非所有的内存分配和释放错误都有MALLOC<em>CHECK</em>检测出的, 他说发现的只是常见错误, 但是, 这种技术快速易用, 较之于malloc调试库具有较低的运行时开销, 出于安全原因, 设置用户ID和设置组ID的程序将忽略MALLOC<em>CHECK</em>设置</li></ul>
+</li><li><p>就malloc调试库而言, 其提供了和标准malloc函数包相同的API, 但附加了捕获内存分配错误的功能, 要使用调试库, 需要在编译时链接调试库, 而非标准C函数库的malloc函数包</p>
+</li><li>由于调试库通常会减低运行速度, 增加内存消耗, 或者两者兼而有之, 应当仅在调试时使用, 而在正式发布产品是链接标准库的malloc包</li></ul>
+<h2 id="-malloc-">控制和检测malloc函数包</h2>
+<ul>
+<li>glibc用于检测和控制malloc保重函数的内存分配的函数包括:<ul>
+<li>函数mallopt()能修改各项参数, 以控制malloc()所采用的算法, 如:<ul>
+<li>此类参数之一就制定了在调用sbrk()函数进行堆收缩之前</li><li>另一参数规定了从堆中分配的内存块大小的上限, 超出上限的内存块则使用mmao()系统调用来分配</li></ul>
+</li><li>mallinfo()函数返回一个结构, 其中包含由malloc()分配内存的各种统计数据</li></ul>
+</li></ul>
+<h2 id="-">在堆上分配内存的其他方法</h2>
+<h3 id="calloc-realloc-">calloc()和realloc()分配内存</h3>
+<ul>
+<li>函数calloc()用于给一组相同对象分配内存:</li></ul>
+<pre><code class="lang-c">#include &lt;stdlib.h&gt;
+
+void *calloc(size-t numitems, size_t size);
+
+Returns pointer to allocated memory on success, or NULL on error
+</code></pre>
+<ul>
+<li>参数numitems指定分配对象的数量, size指定每个对象的大小</li><li>在分配了适当大小的内存块后, calloc()返回指向这块内存起始处的指针</li><li><p>与malloc()不同, calloc()会将已分配的内存初始化为0</p>
+</li><li><p>realloc()函数用来调整一块内存的大小, 而此块内存应该是之前由malloc保重函数所分配的</p>
+</li></ul>
+<pre><code class="lang-c">#include &lt;stdlib.h&gt;
+
+void *realloc(void *ptr, size_t size);
+
+Returns pointer to allocated memory on success, or NULL on error
+</code></pre>
+<ul>
+<li>参数ptr是指向需要调整大小的内存块的指针, 参数size指定所需调整大小的期望值</li><li>如果成功, realloc()返回指向大小调整后内存块的指针, 与调用前的指针相比, 二者指向的位置可能不同</li><li>如果发生错误, realloc()返回NULL, 对ptr指针指向的内存块则原封不动</li><li>若realloc()增加了已分配内存块的大小, 则不会对额外分配的字节进行初始化</li><li>使用calloc()或realloc()分配的内存应该用free()来释放</li></ul>
+<hr>
+<ul>
+<li>通常情况下, 当增大已分配内存时, realloc()会试图去合并在空闲列表中紧随其后且大小满足要求的内存块.</li><li>若原内存块位于堆的顶部, realloc()将对堆空间进行扩展, 如果这块内存位于堆的中部, 且紧随其后的空闲内存空间大小不足, realloc()会分配一块新内存, 并将原有数据复制到新内存块中, 一般情况下尽量避免掉用realloc()</li><li>realloc()可能会移动内存, 对这块内存后续引用就必须使用realloc()的返回指针, 可以用realloc()来重新定位由变量ptr指向的内存块:</li></ul>
+<pre><code class="lang-c">nptr = realloc(ptr, newsize);
+if(nptr == NULL)
+{
+    /*error*/
+}
+else
+{
+    ptr = nptr;
+}
+</code></pre>
+<ul>
+<li>由于realloc()可能会移动内存块, 任何指向该内存块内部的指针在调用realloc()之后都可能不在可用, 只有一指向此块内存起始处的指针加上一个偏移量来定位的内存块可用</li></ul>
+<h3 id="-memalign-posix_memalign-">分配对齐的内存: memalign()和posix_memalign()</h3>
+<ul>
+<li>函数memalign()和posix_memalign()可以在分配内存时, 该内存块的其实地址与2的整数次幂边界对齐, 该特征对于某些应用非常有用</li></ul>
+<pre><code class="lang-c">#include &lt;malloc.h&gt;
+
+void *memalign(size_t boundart, size_t size);
+
+Returns pointer to allocated memory on success, or NULL on error
+</code></pre>
+<ul>
+<li>memalign()分配size个字节的内存, 起始地址是参数boundary的整数倍, 儿boundary必须是2的整数次幂, 函数返回已分配内存的地址</li><li>函数memalign()并非在所有UNIX实现上都存在, 大多数需要应用<stdlib.h></li><li>posix_memalign()函数为标准规范函数:</li></ul>
+<pre><code class="lang-c">#include &lt;stdlib.h&gt;
+
+int posix_memealign(void **memptr, size_t alignment, size_t size);
+
+Returns 0 on success, or a positive error number on error
+</code></pre>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
