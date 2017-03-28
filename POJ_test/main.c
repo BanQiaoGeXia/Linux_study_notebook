@@ -15,7 +15,7 @@ int mission_workflow_1002()
      * 第五步: 比较计数每一个号码出现的次数
      * 第六步: 整合输出结果
      */
-    char *filename = "E:/Qt_study/POJ_test/data1002.txt";
+    char *filename = "E:/Linux_study_notebook/POJ_test/data1002.txt";
     FILE *file;
     int file_length;
     char *file_data;
@@ -32,6 +32,7 @@ int mission_workflow_1002()
     file_data = (char *)malloc(file_length);
     memset(file_data, 0, file_length);
     read_from_file(&file_data, file);
+    printf("%s", file_data);
 
     // close file and make the point NULL
     printf("%p\n", file);

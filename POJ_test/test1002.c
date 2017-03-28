@@ -36,5 +36,22 @@ int get_file_size(FILE *f)
 
 int read_from_file(char **buff, FILE *file)
 {
+    fseek(file, 0, SEEK_SET);
+    char buf[20] = {0};
+    char *data = *buff;
+    while(!feof(file))
+    {
+        fgets(buf, 20, file);
+        printf("%s", buf);
+        trans2num(&buf);
+        strcat(data, buf);
+    }
+    *buff = data;
+    return 0;
+}
 
+int trans2num(char **buff)
+{
+
+    return 0;
 }
