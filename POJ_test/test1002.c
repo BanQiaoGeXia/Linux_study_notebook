@@ -34,24 +34,68 @@ int get_file_size(FILE *f)
     return len;
 }
 
-int read_from_file(char **buff, FILE *file)
+int read_from_file(char **buff, FILE *file, int file_length)
 {
+    int lines = 0;
+    char *data = (char *)malloc(file_length);
+    memset(data, 0, file_length);
+    char *buf = (char *)malloc(20);
+    memset(buf, 0, 20);
+    char *sub_str = (char *)malloc(10);
+    memset(sub_str, 0, 10);
     fseek(file, 0, SEEK_SET);
-    char buf[20] = {0};
-    char *data = *buff;
     while(!feof(file))
     {
         fgets(buf, 20, file);
         printf("%s", buf);
-        trans2num(&buf);
-        strcat(data, buf);
+        if (trans2num(buf, &sub_str) != 0)
+        {
+            printf("error in trans2num");
+            return 1;
+        }
+        strcat(data, sub_str);
+        lines++;
     }
+    free(sub_str);
+    free(*buff);
     *buff = data;
+    free(buf);
+    return lines;
+}
+
+int trans2num(char *buff, char **sub_str)
+{
+    char *m_buff = buff;
+    char *p, *q;
+    for(p = m_buff, q = m_buff; *p != '\0'; p++)
+    {
+        if(*p >= '0' && *p <= '9')
+            *q++ = *p;
+        else if(*p >= 'A' && *p < 'Q')
+        {
+            *q++ = ((*p - 59) / 3) + 48;
+        }
+        else if(*p > 'Q' && *p < 'Z')
+        {
+            *q++ = ((*p - 60) / 3) + 48;
+        }
+    }
+    *q++ = '\n';
+    *q = *p;
+    *sub_str = m_buff;
     return 0;
 }
 
-int trans2num(char **buff)
+int count_tel_nums(char *buff, int lines)
 {
+    printf(">>>>>>>>  %d\n", lines);
+    char tel_num[lines][8];
+    int count[lines];
+
+
+
+
+
 
     return 0;
 }

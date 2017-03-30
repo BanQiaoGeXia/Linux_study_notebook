@@ -19,6 +19,7 @@ int mission_workflow_1002()
     FILE *file;
     int file_length;
     char *file_data;
+    int lines;
 
     // open file
     file = open_file(filename);
@@ -31,13 +32,16 @@ int mission_workflow_1002()
     // read from file and format them
     file_data = (char *)malloc(file_length);
     memset(file_data, 0, file_length);
-    read_from_file(&file_data, file);
-    printf("%s", file_data);
+    lines = read_from_file(&file_data, file, file_length);
+    printf("\n\nfinal is : %s", file_data);
+
+    // sub the short and the long numbers and count the same numbers have
+    count_tel_nums(file_data, lines);
 
     // close file and make the point NULL
-    printf("%p\n", file);
+    free(file_data);
+    file_data = NULL;
     close_file(&file);
-    printf("%p", file);
     return 0;
 }
 
@@ -45,27 +49,5 @@ int mission_workflow_1002()
 int main(void)
 {
     mission_workflow_1002();
-//    FILE *f = fopen(filename, "r");
-//    if(f == NULL)
-//    {
-//        printf("open failed\n");
-//    }
-//    char line[20];
-//    fseek(f, 0, SEEK_END);
-//    int length = ftell(f);
-//    printf("length = %d\n", length);
-//    char *buff = (char *)malloc(length);
-//    memset(buff, 0, length);
-//    fseek(f, 0, SEEK_SET);
-//    int i = 0;
-//    while(!feof(f))
-//    {
-//        char* a = fgets(line, 20, f);
-//        printf("%s", line);
-//        printf("%d\n %s\n", ++i, a);
-//    }
-//    int n = fread(buff, length, 1, f);
-//    printf("read %d bytes\n", n);
-//    printf("Reading complete\n\n");
     return 0;
 }
