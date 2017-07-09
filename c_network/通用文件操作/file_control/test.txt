@@ -1,0 +1,8 @@
+total 48
+drwxr-xr-x  7 m.k  staff   238  6 25 20:39 .
+drwxr-xr-x  4 m.k  staff   136  6 25 17:57 ..
+-rwxr-xr-x  1 m.k  staff  8868  6 25 20:38 a.out
+-rw-r--r--  1 m.k  staff   453  6 25 20:37 main.c
+-rw-r--r--  1 m.k  staff  2156  6 25 20:38 t_file.c
+-rw-r--r--  1 m.k  staff   653  6 25 20:37 t_file.h
+-rw-r--r--  1 m.k  staff     0  6 25 20:39 test.txt
